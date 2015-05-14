@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.xamarin.samples.urbanairship.pushsample">
-	<uses-sdk android:minSdkVersion="4" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.xamarin.samples.urbanairship.pushsample.cm1" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="15" />
 	<application android:label="XamarinUAirshipPushSample">
 		<!-- REQUIRED for Urban Airship GCM-->
 		<receiver android:name="com.urbanairship.CoreReceiver" />
@@ -9,7 +9,7 @@
 				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
 				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 				<!-- MODIFICATION REQUIRED - Use your package name as the category -->
-				<category android:name="com.xamarin.samples.urbanairship.pushsample" />
+				<category android:name="com.xamarin.samples.urbanairship.pushsample.cm1" />
 			</intent-filter>
 			<!-- REQUIRED for detecting when the application is upgraded so it can request a new GCM ID -->
 			<intent-filter>
@@ -29,4 +29,24 @@
 		<!-- Replace the receiver below with your package and class name -->
 		<receiver android:name="com.xamarin.samples.urbanairship.pushsample.IntentReceiver" />
 	</application>
+	<!-- REQUIRED PERMISSIONS for GCM -->
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<!-- GCM requires a Google account. -->
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<!-- This app has permission to register with GCM and receive message -->
+	<permission android:name="com.xamarin.samples.urbanairship.pushsample.cm1.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+	<uses-permission android:name="com.xamarin.samples.urbanairship.pushsample.cm1.permission.C2D_MESSAGE" />
+	<!-- The two elements above ensure that only this application can receive the messages and registration result -->
+	<!-- REQUIRED for Google Play Services (GCM)-->
+	<meta-data android:name="com.google.android.gms.version" android:value="4030500" /><!--@integer/google_play_services_version-->
+	<!-- REQUIRED for PlayServiceUtils.handleAnyPlayServicesError to handle Google Play Services recoverable errors. -->
+	<activity android:name="com.urbanairship.google.PlayServicesErrorActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+	<!-- REQUIRED for GCM -->
+	<receiver android:name="com.urbanairship.push.GCMPushReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+		<intent-filter>
+			<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+			<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+			<category android:name="com.xamarin.samples.urbanairship.pushsample.cm1" />
+		</intent-filter>
+	</receiver>
 </manifest>
